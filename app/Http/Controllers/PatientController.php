@@ -9,7 +9,6 @@ use Illuminate\Http\JsonResponse;
 
 class PatientController extends Controller
 {
-
    public function storePatients(Request $request): JsonResponse
    {
       $validator = Validator::make($request->all(), [
@@ -33,8 +32,6 @@ class PatientController extends Controller
          'patient' => $patient,
       ], 201);
    }
-
-
    public function getPatients()
    {
       $patients = Patient::all();
@@ -43,7 +40,6 @@ class PatientController extends Controller
          'patients' => $patients
       ], 200);
    }
-
    public function getPatientById($id)
    {
       $patient = Patient::find($id);
@@ -78,16 +74,47 @@ class PatientController extends Controller
          return response()->json([
             'message' => 'Patient updated successfully',
             'patient' => $patient,
-         ]);
+         ], 200);
       }
    }
-
    public function deletePatient($id)
    {
       $patient = Patient::find($id);
       $patient->delete();
       return response()->json([
          'message' => 'Patient deleted successfully',
+      ], 200);
+   }
+   public function searchPatientByName($name)
+   {
+      $patient = Patient::where('name', 'like', '%' . $name . '%')->get();
+      return response()->json([
+         'message' => 'Patient searched successfully',
+         'patient' => $patient
+      ], 200);
+   }
+   public function searchPatientByEmail($email)
+   {
+      $patient = Patient::where('email', 'like', '%' . $email . '%')->get();
+      return response()->json([
+         'message' => 'Patient searched successfully',
+         'patient' => $patient
+      ], 200);
+   }
+   public function searchPatientByPhone($phone)
+   {
+      $patient = Patient::where('phone', 'like', '%' . $phone . '%')->get();
+      return response()->json([
+         'message' => 'Patient searched successfully',
+         'patient' => $patient
+      ], 200);
+   }
+   public function searchPatientByAddress($address)
+   {
+      $patient = Patient::where('address', 'like', '%' . $address . '%')->get();
+      return response()->json([
+         'message' => 'Patient searched successfully',
+         'patient' => $patient
       ], 200);
    }
 }
