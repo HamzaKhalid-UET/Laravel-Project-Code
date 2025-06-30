@@ -117,4 +117,17 @@ class PatientController extends Controller
          'patient' => $patient
       ], 200);
    }
+   public function searchPatientByPhoneAndAddress($phone, $address)
+   {
+      $patient = Patient::where('phone', 'like', '%' . $phone . '%')->where('address', 'like', '%' . $address . '%')->get();
+      if ($patient->isEmpty()) {
+         return response()->json([
+            'message' => 'No patient found with this phone and address',
+         ], 404);
+      }
+      return response()->json([
+         'message' => 'Patient searched successfully',
+         'patient' => $patient
+      ], 200);
+   }
 }
