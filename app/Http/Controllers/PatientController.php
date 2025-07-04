@@ -43,6 +43,11 @@ class PatientController extends Controller
    public function getPatientById($id)
    {
       $patient = Patient::find($id);
+      if(!$patient){
+         return response()->json([
+            'message' => "Patient not found against this $id",
+         ], 404);
+      }
       return response()->json([
          'message' => 'Patient fetched successfully',
          'patient' => $patient
@@ -123,6 +128,19 @@ class PatientController extends Controller
       if ($patient->isEmpty()) {
          return response()->json([
             'message' => 'No patient found with this phone and address',
+         ], 404);
+      }
+      return response()->json([
+         'message' => 'Patient searched successfully',
+         'patient' => $patient
+      ], 200);
+   }
+   public function searchPatientByPhoneAndName($phone, $name)
+   {
+      $patient = Patient::where('phone', 'like', '%' . $phone . '%')->where('name', 'like', '%' . $name . '%')->get();
+      if($patient->isEmpty()){
+         return response()->json([
+            'message' => 'No patient found with this phone and name',
          ], 404);
       }
       return response()->json([
