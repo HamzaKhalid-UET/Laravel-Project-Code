@@ -4,6 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserRoleController;
+use App\Http\Middleware\JwtMiddleware as MiddlewaresJwtMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,3 +58,34 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/uploadImages', [AuthController::class, 'upoladImages']);
 
 
+// profile routes
+Route::post('/profile', [ProfileController::class, 'storeProfile']);
+Route::get('/profile', [ProfileController::class, 'getProfile']);
+Route::get('/profile/{id}', [ProfileController::class, 'getProfileByUserId']);
+Route::put('/updateProfile/{id}', [ProfileController::class, 'updateProfile']);
+Route::delete('/deleteProfile/{id}', [ProfileController::class, 'deleteProfile']);
+
+Route::get('/userProfile/{id}', [ProfileController::class, 'userProfile']);
+
+
+// comment routes
+Route::post('/comment', [CommentController::class, 'storeComment']);
+Route::get('/userComments/{id}', [CommentController::class, 'getuserComments']);
+
+
+
+// role routes
+Route::post('/role', [RoleController::class, 'storeRole']);
+
+
+// user role routes
+Route::post('/userrole', [UserRoleController::class, 'storeUserRole']);
+
+
+// user role routes
+Route::get('/userrole/{id}', [UserRoleController::class, 'getUserRole']);
+
+// user against role routes
+Route::middleware([MiddlewaresJwtMiddleware::class])->group(function () {
+    Route::get('/useragainstrole/{id}', [UserRoleController::class, 'getRoleOfUser']);
+});

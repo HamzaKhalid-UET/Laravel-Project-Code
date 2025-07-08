@@ -43,20 +43,18 @@ class AuthController extends Controller
     public function upoladImages(Request $request)
     {
 
-        $validator=Validator::make($request->all(),[
-            'image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        if($validator->fails()){
-            return response()->json(['error'=>$validator->errors()],422);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
         }
 
-        $image=$request->file('image');
-        $imageName="user_".time().'.'.$image->getClientOriginalExtension();
-        $image->move(app_path('public/uploads'),$imageName);
-
-        return response()->json(['message'=>'Image uploaded successfully','image'=>$imageName],200);
+        $image = $request->file('image');
+        $imageName = "user_" . time() . '.' . $image->getClientOriginalExtension();
+        $imagePath = config('BASE_APP_URL') . 'public/uploads/' . $imageName;
+        $image->move($imagePath);
+        return response()->json(['message' => 'Image uploaded successfully', 'image' => $imageName, 'imagePath' => $imagePath], 200);
     }
 }
-
-
