@@ -85,7 +85,7 @@ Route::post('/userrole', [UserRoleController::class, 'storeUserRole']);
 // user role routes
 Route::get('/userrole/{id}', [UserRoleController::class, 'getUserRole']);
 
-// user against role routes
+// user against role routes 
 Route::middleware([MiddlewaresJwtMiddleware::class])->group(function () {
     Route::get('/useragainstrole/{id}', [UserRoleController::class, 'getRoleOfUser']);
 });
