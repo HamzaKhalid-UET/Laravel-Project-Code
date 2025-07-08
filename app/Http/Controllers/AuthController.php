@@ -32,6 +32,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid password'], 401);
         }
 
+       
         $token = Helper::createToken($user);
         $data = [
             "name" => $user->name,
