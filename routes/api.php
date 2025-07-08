@@ -78,6 +78,7 @@ Route::get('/userComments/{id}', [CommentController::class, 'getuserComments']);
 Route::post('/role', [RoleController::class, 'storeRole']);
 
 
+
 // user role routes
 Route::post('/userrole', [UserRoleController::class, 'storeUserRole']);
 
